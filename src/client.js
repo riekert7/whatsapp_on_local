@@ -1,6 +1,8 @@
-import { Client, LocalAuth } from 'whatsapp-web.js';
+import pkg from 'whatsapp-web.js';
 import qrcode from 'qrcode-terminal';
 import { logger } from './utils/logger.js';
+
+const { Client, LocalAuth } = pkg;
 
 /**
  * Initialize and configure WhatsApp client
@@ -132,7 +134,8 @@ class WhatsAppClient {
         }
 
         try {
-            const { MessageMedia } = await import('whatsapp-web.js');
+            const pkg = await import('whatsapp-web.js');
+            const { MessageMedia } = pkg.default || pkg;
             const media = MessageMedia.fromFilePath(filePath);
             
             if (caption) {
@@ -163,7 +166,8 @@ class WhatsAppClient {
         }
 
         try {
-            const { MessageMedia } = await import('whatsapp-web.js');
+            const pkg = await import('whatsapp-web.js');
+            const { MessageMedia } = pkg.default || pkg;
             const media = new MessageMedia(mimetype, base64Data, filename);
             
             if (caption) {
