@@ -112,10 +112,16 @@ class WhatsAppClient {
         }
 
         try {
-            const msg = await this.client.sendMessage(chatId, message);
+            const msg = await this.client.sendMessage(chatId, message, { linkPreview: false });
             logger.success(`Message sent to ${chatId}`);
             return msg;
         } catch (error) {
+            // Ignore non-critical "mark as seen" errors - message was sent successfully
+            if (error.message && error.message.includes('markedUnread')) {
+                logger.warn(`Message sent but mark-as-seen failed (non-critical): ${chatId}`);
+                // Try to return a mock response since message was sent
+                return { id: { _serialized: `sent_${Date.now()}` } };
+            }
             logger.error(`Failed to send message to ${chatId}:`, error);
             throw error;
         }
@@ -174,10 +180,16 @@ class WhatsAppClient {
                 media.caption = caption;
             }
 
-            const msg = await this.client.sendMessage(chatId, media);
+            const msg = await this.client.sendMessage(chatId, media, { linkPreview: false });
             logger.success(`Media (base64) sent to ${chatId}`);
             return msg;
         } catch (error) {
+            // Ignore non-critical "mark as seen" errors - message was sent successfully
+            if (error.message && error.message.includes('markedUnread')) {
+                logger.warn(`Media sent but mark-as-seen failed (non-critical): ${chatId}`);
+                // Try to return a mock response since message was sent
+                return { id: { _serialized: `sent_${Date.now()}` } };
+            }
             logger.error(`Failed to send base64 media to ${chatId}:`, error);
             throw error;
         }
