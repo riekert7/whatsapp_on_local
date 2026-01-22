@@ -26,6 +26,11 @@ class WhatsAppClient {
                 authStrategy: new LocalAuth({
                     dataPath: './.session'
                 }),
+                // Use a specific web version to avoid markedUnread compatibility issues
+                webVersionCache: {
+                    type: 'remote',
+                    remotePath: 'https://raw.githubusercontent.com/AdenWhitworth/wa-version/main/html/2.3000.1017054665.html',
+                },
                 puppeteer: {
                     headless: true,
                     args: [
