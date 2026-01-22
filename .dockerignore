@@ -1,0 +1,26 @@
+# Ignore session data - this is mounted as a volume at runtime
+whatsapp-session/
+.session/
+
+# Dependencies - installed during build
+node_modules/
+
+# Git
+.git/
+.gitignore
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Examples and docs (not needed in container)
+examples/
+README.md
